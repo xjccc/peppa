@@ -1,68 +1,100 @@
 <template>
-  <div class="user-view">
-    <app-header></app-header>
-    <div class="user-info">
-      <text class="user-name">{{ userId }}</text>
-      <div class="user-meta" v-if="user">
-        <text class="meta-label">Created: {{ user.created | timeAgo }} ago</text>
-        <text class="meta-label">Karma:   {{ user.karma }}</text>
-        <text class="meta-label user-about" v-if="user.about">{{ user.about | unescape }}</text>
-      </div>
-      <div class="loading" v-else>
-        <text class="loading-text">loading ...</text>
-      </div>
+  <div class="list-view">
+    <app-header title="货源列表"></app-header>
+    <filter></filter>
+    <div v-if="goods.length">
+      <list class="goods-list">
+        <cell v-for="(item,index) in goods">
+          <list-item :corsdata="item"></list-item>
+        </cell>
+      </list>
     </div>
+    <empty v-if="!goods.length"></empty>
   </div>
 </template>
 
 <script>
   import AppHeader from '../components/app-header.vue'
+  import Filter from '../components/filter.vue'
+  import ListItem from '../components/list-item.vue'
+  import Empty from '../components/empty.vue'
+  import Options from '../components/options.vue'
 
   export default {
-    components: { AppHeader },
-    computed: {
-      userId () {
-        if (this.$route && this.$route.params) {
-          return this.$route.params.id
-        }
-        return 'Hanks10100'
-      },
-      user () {
-        return this.$store.state.users[this.userId]
+    components:{ AppHeader,Filter,ListItem,Empty,Options},
+    data (){
+      return {
+        loading:true,
+        goods:[
+          {
+            id:1001,
+            formInfo:{
+              province:'山东',
+              city:'德州',
+              county:'夏津'
+            },
+            toInfo:{
+              province:'河北',
+              city:'唐山',
+              county:'明得'
+            },
+            cate:'高栏车',
+            length:'13',
+            desc:'普货',
+            date:'2017/2/28 11:11:19',
+            avatar:'',
+            name:'天下行物流',
+            view:64,
+            tel:'17069554359'
+          },
+          {
+            id:1002,
+            formInfo:{
+              province:'山东',
+              city:'德州',
+              county:'夏津'
+            },
+            toInfo:{
+              province:'河北',
+              city:'唐山',
+              county:'明得'
+            },
+            cate:'高栏车',
+            length:'13',
+            desc:'普货',
+            date:'2017/2/28 11:11:19',
+            avatar:'',
+            name:'天下行物流',
+            view:64,
+            tel:'17069554359'
+          },
+          {
+            id:1003,
+            formInfo:{
+              province:'山东',
+              city:'德州',
+              county:'夏津'
+            },
+            toInfo:{
+              province:'河北',
+              city:'唐山',
+              county:'明得'
+            },
+            cate:'高栏车',
+            length:'13',
+            desc:'普货',
+            date:'2017/2/28 11:11:19',
+            avatar:'',
+            name:'天下行物流',
+            view:64,
+            tel:'17069554359'
+          }  
+        ]   
       }
-    },
-
-    created () {
-      this.$store.dispatch('FETCH_USER', { id: this.userId })
     }
   }
 </script>
 
 <style scoped>
-  .user-info {
-    padding-top: 60px;
-    padding-left: 80px;
-    padding-right: 60px;
-  }
-  .user-name {
-    font-size: 72px;
-    font-weight: bold;
-    margin-bottom: 60px;
-  }
-  .loading-text {
-    font-family: Verdana, Geneva, sans-serif;
-    font-size: 44px;
-    color: #BBBBBB;
-  }
-  .meta-label {
-    font-family: Verdana, Geneva, sans-serif;
-    font-size: 32px;
-    margin-bottom: 15px;
-    color: #333333;
-  }
-  .user-about {
-    margin-top: 20px;
-    font-size: 28px;
-    color: #666666;
-  }
+
 </style>

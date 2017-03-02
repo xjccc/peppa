@@ -18,7 +18,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {
-        applicationId "com.example.weex.hackernews"
+        applicationId "com.example.weex.peppa"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1

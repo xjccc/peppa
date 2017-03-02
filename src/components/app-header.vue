@@ -1,70 +1,58 @@
 <template>
   <div class="header">
-    <div class="logo" @click="jump('/')">
-      <image class="image" src="https://news.ycombinator.com/favicon.ico"></image>
-    </div>
-    <div class="nav">
-      <div class="link" @click="jump('/top')">
-        <text class="title">Top</text>
+      <div class="back" @click="jump('/')">
+        <div class="icon"></div>
       </div>
-      <div class="link" @click="jump('/new')">
-        <text class="title">New</text>
-      </div>
-      <div class="link" @click="jump('/show')">
-        <text class="title">Show</text>
-      </div>
-      <div class="link" @click="jump('/ask')">
-        <text class="title">Ask</text>
-      </div>
-      <div class="link" @click="jump('/job')">
-        <text class="title">Job</text>
-      </div>
-    </div>
+      <text class="title">{{title}}</text>
   </div>
 </template>
+
+<script>
+  export default {
+    name:'app-header',
+    props:['title']
+  }  
+</script>
 
 <style scoped>
   .header {
     position: relative;
-    height: 120px;
-    margin-bottom: 3px;
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
-    border-bottom-color: #DDDDDD;
-    background-color: #FF6600;
-  }
-  .logo {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    top: 35px;
-    left: 35px;
-    border-width: 3px;
-    border-style: solid;
-    border-color: #FFFFFF;
-  }
-  .image {
-    width: 44px;
-    height: 44px;
-  }
-  .nav {
-    display: flex;
-    position: absolute;
-    left: 120px;
-    top: 35px;
+    height: 88px;
+    padding-left:120px;
+    padding-right: 120px;
+    background-color: #fafafa;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
+    border-bottom-width:1px;
+    border-bottom-style:solid;
+    border-bottom-color:#ddd;
   }
-  .link {
-    padding-left: 15px;
-    padding-right: 15px;
+  .back{
+    position: absolute;
+    left:0;
+    top:0;
+    width: 120px;
+    height:88px;
+  }
+  .icon{
+    margin-top:30px;
+    margin-left: 45px;
+    width:27px;
+    height:27px;
+    border-left-width: 3px;
+    border-top-width: 3px;
+    border-left-style: solid;
+    border-top-style: solid;
+    border-left-color:#333;
+    border-top-color: #333;
+    transform: rotate(-45deg);
   }
   .title {
-    font-family: Verdana, Geneva, sans-serif;
-    font-size: 32px;
-    line-height: 44px;
-    color: #FFFFFF;
+    flex:1;
+    color:#333;
+    font-size: 36px;
+    text-align: center;
   }
 </style>
