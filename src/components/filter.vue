@@ -23,6 +23,9 @@
 		padding-right:30px;
 		height:128px;
 		flex-direction: row;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: #ddd;
 	}
 	.category{
 		flex:1;

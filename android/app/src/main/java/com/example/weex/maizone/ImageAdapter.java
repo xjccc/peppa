@@ -1,4 +1,4 @@
-package com.example.weex.peppa;
+package com.example.weex.maizone;
 
 import android.net.Uri;
 import android.text.TextUtils;
@@ -13,7 +13,7 @@ import com.taobao.weex.common.WXImageStrategy;
 import com.taobao.weex.dom.WXImageQuality;
 
 /**
- * Created by ZP on 17/2/28.
+ * Created by Hanks on 16/12/8.
  */
 public class ImageAdapter implements IWXImgLoaderAdapter {
 

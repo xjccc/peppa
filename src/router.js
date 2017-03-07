@@ -6,7 +6,7 @@ import Detail from './views/Detail.vue'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'abstract',
+  mode: 'abstract',
   routes: [
     { path: '/list', component: List },
     { path: '/detail/:id(\\d+)', component: Detail },

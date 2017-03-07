@@ -1,4 +1,4 @@
-package com.example.weex.peppa;
+package com.example.weex.maizone;
 
 import org.junit.Test;
 

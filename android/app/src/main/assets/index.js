@@ -56,17 +56,11 @@
 
 	var _router2 = _interopRequireDefault(_router);
 
-	var _store = __webpack_require__(31);
-
-	var _store2 = _interopRequireDefault(_store);
-
-	var _vuexRouterSync = __webpack_require__(42);
-
-	var _filters = __webpack_require__(43);
+	var _filters = __webpack_require__(34);
 
 	var filters = _interopRequireWildcard(_filters);
 
-	var _mixins = __webpack_require__(44);
+	var _mixins = __webpack_require__(35);
 
 	var _mixins2 = _interopRequireDefault(_mixins);
 
@@ -76,10 +70,9 @@
 
 	// sync the router with the vuex store.
 	// this registers `store.state.route`
-	// import Vue from 'vue'
-	(0, _vuexRouterSync.sync)(_store2.default, _router2.default);
 
 	// register global utility filters.
+	// import Vue from 'vue'
 	Object.keys(filters).forEach(function (key) {
 	  Vue.filter(key, filters[key]);
 	});
@@ -90,7 +83,7 @@
 	// create the app instance.
 	// here we inject the router and store to all child components,
 	// making them available everywhere as `this.$router` and `this.$store`.
-	new Vue(Vue.util.extend({ el: '#root', router: _router2.default, store: _store2.default }, _App2.default));
+	new Vue(Vue.util.extend({ el: '#root', router: _router2.default }, _App2.default));
 
 	_router2.default.push('/');
 
@@ -117,7 +110,7 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "/Users/Hanks/Projects/weex/weex-hackernews/src/App.vue"
+	__vue_options__.__file = "C:\\Users\\fe\\www\\peppa\\src\\App.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 	__vue_options__.style = __vue_options__.style || {}
@@ -159,15 +152,15 @@
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _h('div', {
+	  return _c('div', {
 	    on: {
 	      "androidback": _vm.back
 	    }
-	  }, [_h('router-view', {
+	  }, [_c('router-view', {
 	    staticStyle: {
 	      flex: "1"
 	    }
-	  })])
+	  })], 1)
 	},staticRenderFns: []}
 	module.exports.render._withStripped = true
 
@@ -185,40 +178,20 @@
 
 	var _vueRouter2 = _interopRequireDefault(_vueRouter);
 
-	var _StoriesView = __webpack_require__(7);
+	var _List = __webpack_require__(7);
 
-	var _StoriesView2 = _interopRequireDefault(_StoriesView);
+	var _List2 = _interopRequireDefault(_List);
 
-	var _ArticleView = __webpack_require__(21);
+	var _Detail = __webpack_require__(30);
 
-	var _ArticleView2 = _interopRequireDefault(_ArticleView);
-
-	var _CommentView = __webpack_require__(25);
-
-	var _CommentView2 = _interopRequireDefault(_CommentView);
-
-	var _UserView = __webpack_require__(38);
-
-	var _UserView2 = _interopRequireDefault(_UserView);
+	var _Detail2 = _interopRequireDefault(_Detail);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	Vue.use(_vueRouter2.default);
-
-	// Story view factory
-	// import Vue from 'vue'
-	function createStoriesView(type) {
-	  return {
-	    name: type + '-stories-view',
-	    render: function render(createElement) {
-	      return createElement(_StoriesView2.default, { props: { type: type } });
-	    }
-	  };
-	}
-
+	Vue.use(_vueRouter2.default); // import Vue from 'vue'
 	exports.default = new _vueRouter2.default({
-	  // mode: 'abstract',
-	  routes: [{ path: '/top', component: createStoriesView('top') }, { path: '/new', component: createStoriesView('new') }, { path: '/show', component: createStoriesView('show') }, { path: '/ask', component: createStoriesView('ask') }, { path: '/job', component: createStoriesView('job') }, { path: '/article/:url(.*)?', component: _ArticleView2.default }, { path: '/item/:id(\\d+)', component: _CommentView2.default }, { path: '/user/:id', component: _UserView2.default }, { path: '/', redirect: '/top' }]
+	  mode: 'abstract',
+	  routes: [{ path: '/list', component: _List2.default }, { path: '/detail/:id(\\d+)', component: _Detail2.default }, { path: '/', redirect: '/list' }]
 	});
 
 /***/ },
@@ -226,7 +199,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
-	  * vue-router v2.2.0
+	  * vue-router v2.2.1
 	  * (c) 2017 Evan You
 	  * @license MIT
 	  */
@@ -1607,12 +1580,11 @@
 
 	function setupScroll () {
 	  window.addEventListener('popstate', function (e) {
+	    saveScrollPosition();
 	    if (e.state && e.state.key) {
 	      setStateKey(e.state.key);
 	    }
 	  });
-
-	  window.addEventListener('scroll', saveScrollPosition);
 	}
 
 	function handleScroll (
@@ -1737,6 +1709,7 @@
 	}
 
 	function pushState (url, replace) {
+	  saveScrollPosition();
 	  // try...catch the pushState call to get around Safari
 	  // DOM Exception 18 where it limits to 100 pushState calls
 	  var history = window.history;
@@ -1747,7 +1720,6 @@
 	      _key = genKey();
 	      history.pushState({ key: _key }, '', url);
 	    }
-	    saveScrollPosition();
 	  } catch (e) {
 	    window.location[replace ? 'replace' : 'assign'](url);
 	  }
@@ -2497,7 +2469,7 @@
 	}
 
 	VueRouter.install = install;
-	VueRouter.version = '2.2.0';
+	VueRouter.version = '2.2.1';
 
 	if (inBrowser && window.Vue) {
 	  window.Vue.use(VueRouter);
@@ -2708,7 +2680,7 @@
 	__vue_exports__ = __webpack_require__(9)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(20)
+	var __vue_template__ = __webpack_require__(29)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -2720,7 +2692,7 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "/Users/Hanks/Projects/weex/weex-hackernews/src/views/StoriesView.vue"
+	__vue_options__.__file = "C:\\Users\\fe\\www\\peppa\\src\\views\\List.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 	__vue_options__.style = __vue_options__.style || {}
@@ -2738,27 +2710,30 @@
 /***/ function(module, exports) {
 
 	module.exports = {
-	  "stories-view": {
-	    "height": 100
+	  "goods-list": {
+	    "flex": 1
 	  },
-	  "story-cell": {
-	    "marginBottom": 3,
-	    "borderBottomWidth": 2,
+	  "goods-cell": {
+	    "borderBottomWidth": 1,
 	    "borderBottomStyle": "solid",
-	    "borderBottomColor": "#DDDDDD",
-	    "backgroundColor": "#FFFFFF"
+	    "borderBottomColor": "#dddddd"
 	  },
 	  "loading": {
-	    "width": 750,
-	    "height": 120,
-	    "display": "flex",
-	    "alignItems": "center",
 	    "justifyContent": "center"
 	  },
-	  "loading-text": {
+	  "indicator": {
+	    "color": "#999999",
+	    "fontSize": 32,
+	    "paddingTop": 30,
+	    "paddingBottom": 30,
+	    "textAlign": "center"
+	  },
+	  "refresh-indicator": {
+	    "color": "#999999",
+	    "fontSize": 42,
+	    "paddingTop": 30,
 	    "textAlign": "center",
-	    "fontSize": 40,
-	    "color": "#BBBBBB"
+	    "fontWeight": "bold"
 	  }
 	}
 
@@ -2776,12 +2751,57 @@
 
 	var _appHeader2 = _interopRequireDefault(_appHeader);
 
-	var _story = __webpack_require__(13);
+	var _filter = __webpack_require__(14);
 
-	var _story2 = _interopRequireDefault(_story);
+	var _filter2 = _interopRequireDefault(_filter);
+
+	var _listItem = __webpack_require__(18);
+
+	var _listItem2 = _interopRequireDefault(_listItem);
+
+	var _empty = __webpack_require__(22);
+
+	var _empty2 = _interopRequireDefault(_empty);
+
+	var _options = __webpack_require__(25);
+
+	var _options2 = _interopRequireDefault(_options);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	var stream = weex.requireModule('stream'); //
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 	//
 	//
 	//
@@ -2797,51 +2817,210 @@
 	//
 	//
 
-	exports.default = {
-	  components: { AppHeader: _appHeader2.default, Story: _story2.default },
-	  props: {
-	    type: {
-	      type: String,
-	      required: true,
-	      default: 'top'
-	    }
+	var defaultAddData = {
+	  id: 1001,
+	  formInfo: {
+	    province: '山东',
+	    city: '德州',
+	    county: '夏津'
 	  },
+	  toInfo: {
+	    province: '北京',
+	    city: '海淀区'
+	  },
+	  cate: '高栏车',
+	  length: '13',
+	  desc: '普货',
+	  date: '2017-2-28',
+	  avatar: 'http://temp.im/120x120',
+	  name: '天下行物流',
+	  views: 354,
+	  tel: '17069554359'
+	};
+	exports.default = {
+	  components: { AppHeader: _appHeader2.default, Filter: _filter2.default, ListItem: _listItem2.default, Empty: _empty2.default, Options: _options2.default },
 	  data: function data() {
 	    return {
-	      loading: true
+	      page: 1,
+	      end: false,
+	      indicator: '加载中···',
+	      loadingVisible: false,
+	      refreshing: false,
+	      goods: [{
+	        id: 1001,
+	        formInfo: {
+	          province: '山东',
+	          city: '德州',
+	          county: '夏津'
+	        },
+	        toInfo: {
+	          province: '北京',
+	          city: '海淀区'
+	        },
+	        cate: '高栏车',
+	        length: '13',
+	        desc: '普货',
+	        date: '2017-2-28',
+	        avatar: 'http://temp.im/120x120',
+	        name: '天下行物流',
+	        views: 354,
+	        tel: '17069554359'
+	      }, {
+	        id: 1002,
+	        formInfo: {
+	          province: '山东',
+	          city: '德州',
+	          county: '夏津'
+	        },
+	        toInfo: {
+	          province: '河北',
+	          city: '唐山',
+	          county: '明得'
+	        },
+	        cate: '高栏车',
+	        length: '13',
+	        desc: '普货',
+	        date: '2017-2-28',
+	        avatar: 'http://temp.im/120x120',
+	        name: '天下行物流',
+	        views: 164,
+	        tel: '17069554359'
+	      }, {
+	        id: 1003,
+	        formInfo: {
+	          province: '山东',
+	          city: '德州',
+	          county: '夏津'
+	        },
+	        toInfo: {
+	          province: '河北',
+	          city: '唐山',
+	          county: '明得'
+	        },
+	        cate: '高栏车',
+	        length: '13',
+	        date: '2017-2-28',
+	        avatar: 'http://temp.im/120x120',
+	        name: '天下行物流',
+	        views: 64,
+	        tel: '17069554359'
+	      }, {
+	        id: 1004,
+	        formInfo: {
+	          province: '湖北',
+	          city: '武汉'
+	        },
+	        toInfo: {
+	          province: '河北',
+	          city: '唐山',
+	          county: '明得'
+	        },
+	        cate: '高栏车',
+	        length: '13',
+	        date: '2017-2-28',
+	        avatar: 'http://temp.im/120x120',
+	        name: '天下行物流',
+	        views: 64,
+	        tel: '17069554359'
+	      }, {
+	        id: 1001,
+	        formInfo: {
+	          province: '山东',
+	          city: '德州',
+	          county: '夏津'
+	        },
+	        toInfo: {
+	          province: '北京',
+	          city: '海淀区'
+	        },
+	        cate: '高栏车',
+	        length: '13',
+	        desc: '普货',
+	        date: '2017-2-28',
+	        avatar: 'http://temp.im/120x120',
+	        name: '天下行物流',
+	        views: 354,
+	        tel: '17069554359'
+	      }, {
+	        id: 1002,
+	        formInfo: {
+	          province: '山东',
+	          city: '德州',
+	          county: '夏津'
+	        },
+	        toInfo: {
+	          province: '河北',
+	          city: '唐山',
+	          county: '明得'
+	        },
+	        cate: '高栏车',
+	        length: '13',
+	        desc: '普货',
+	        date: '2017-2-28',
+	        avatar: 'http://temp.im/120x120',
+	        name: '天下行物流',
+	        views: 164,
+	        tel: '17069554359'
+	      }, {
+	        id: 1003,
+	        formInfo: {
+	          province: '山东',
+	          city: '德州',
+	          county: '夏津'
+	        },
+	        toInfo: {
+	          province: '河北',
+	          city: '唐山',
+	          county: '明得'
+	        },
+	        cate: '高栏车',
+	        length: '13',
+	        date: '2017-2-28',
+	        avatar: 'http://temp.im/120x120',
+	        name: '天下行物流',
+	        views: 64,
+	        tel: '17069554359'
+	      }, {
+	        id: 1004,
+	        formInfo: {
+	          province: '湖北',
+	          city: '武汉'
+	        },
+	        toInfo: {
+	          province: '河北',
+	          city: '唐山',
+	          county: '明得'
+	        },
+	        cate: '高栏车',
+	        length: '13',
+	        date: '2017-2-28',
+	        avatar: 'http://temp.im/120x120',
+	        name: '天下行物流',
+	        views: 64,
+	        tel: '17069554359'
+	      }]
 	    };
 	  },
 
-
-	  computed: {
-	    stories: function stories() {
-	      return this.$store.getters.activeItems;
-	    }
-	  },
-
 	  methods: {
-	    fetchListData: function fetchListData() {
-	      var _this = this;
-
-	      this.loading = true;
-	      this.$store.dispatch('FETCH_LIST_DATA', {
-	        type: this.type
-	      }).then(function () {
-	        _this.loading = false;
-	      });
+	    fetch: function fetch() {
+	      if (this.loadingVisible) return;
+	      var that = this;
+	      this.loadingVisible = true;
+	      setTimeout(function () {
+	        that.goods.push(defaultAddData);
+	        that.loadingVisible = false;
+	      }, 500);
 	    },
-	    loadMoreStories: function loadMoreStories() {
-	      var _this2 = this;
-
-	      this.loading = true;
-	      this.$store.dispatch('LOAD_MORE_ITEMS').then(function () {
-	        _this2.loading = false;
-	      });
+	    onrefresh: function onrefresh() {
+	      if (this.refreshing) return;
+	      var that = this;
+	      this.refreshing = true;
+	      setTimeout(function () {
+	        that.goods.splice(0, 0, defaultAddData);
+	        that.refreshing = false;
+	      }, 1e3);
 	    }
-	  },
-
-	  created: function created() {
-	    this.fetchListData();
 	  }
 	};
 
@@ -2856,8 +3035,11 @@
 	__vue_styles__.push(__webpack_require__(11)
 	)
 
+	/* script */
+	__vue_exports__ = __webpack_require__(12)
+
 	/* template */
-	var __vue_template__ = __webpack_require__(12)
+	var __vue_template__ = __webpack_require__(13)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -2869,7 +3051,7 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "/Users/Hanks/Projects/weex/weex-hackernews/src/components/app-header.vue"
+	__vue_options__.__file = "C:\\Users\\fe\\www\\peppa\\src\\components\\app-header.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 	__vue_options__.style = __vue_options__.style || {}
@@ -2889,46 +3071,43 @@
 	module.exports = {
 	  "header": {
 	    "position": "relative",
-	    "height": 120,
-	    "marginBottom": 3,
-	    "borderBottomWidth": 2,
-	    "borderBottomStyle": "solid",
-	    "borderBottomColor": "#DDDDDD",
-	    "backgroundColor": "#FF6600"
-	  },
-	  "logo": {
-	    "position": "relative",
-	    "width": 50,
-	    "height": 50,
-	    "top": 35,
-	    "left": 35,
-	    "borderWidth": 3,
-	    "borderStyle": "solid",
-	    "borderColor": "#FFFFFF"
-	  },
-	  "image": {
-	    "width": 44,
-	    "height": 44
-	  },
-	  "nav": {
-	    "display": "flex",
-	    "position": "absolute",
-	    "left": 120,
-	    "top": 35,
+	    "height": 88,
+	    "paddingLeft": 120,
+	    "paddingRight": 120,
+	    "backgroundColor": "#fafafa",
 	    "flexDirection": "row",
 	    "flexWrap": "nowrap",
 	    "justifyContent": "flex-start",
-	    "alignItems": "center"
+	    "alignItems": "center",
+	    "borderBottomWidth": 1,
+	    "borderBottomStyle": "solid",
+	    "borderBottomColor": "#dddddd"
 	  },
-	  "link": {
-	    "paddingLeft": 15,
-	    "paddingRight": 15
+	  "back": {
+	    "position": "absolute",
+	    "left": 0,
+	    "top": 0,
+	    "width": 120,
+	    "height": 88
+	  },
+	  "icon": {
+	    "marginTop": 30,
+	    "marginLeft": 45,
+	    "width": 27,
+	    "height": 27,
+	    "borderLeftWidth": 3,
+	    "borderTopWidth": 3,
+	    "borderLeftStyle": "solid",
+	    "borderTopStyle": "solid",
+	    "borderLeftColor": "#333333",
+	    "borderTopColor": "#333333",
+	    "transform": "rotate(-45deg)"
 	  },
 	  "title": {
-	    "fontFamily": "Verdana, Geneva, sans-serif",
-	    "fontSize": 32,
-	    "lineHeight": 44,
-	    "color": "#FFFFFF"
+	    "flex": 1,
+	    "color": "#333333",
+	    "fontSize": 36,
+	    "textAlign": "center"
 	  }
 	}
 
@@ -2936,88 +3115,64 @@
 /* 12 */
 /***/ function(module, exports) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	exports.default = {
+	  name: 'app-header',
+	  props: ['title']
+	};
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _h('div', {
+	  return _c('div', {
 	    staticClass: ["header"]
-	  }, [_h('div', {
-	    staticClass: ["logo"],
+	  }, [_c('div', {
+	    staticClass: ["back"],
 	    on: {
 	      "click": function($event) {
 	        _vm.jump('/')
 	      }
 	    }
-	  }, [_h('image', {
-	    staticClass: ["image"],
-	    attrs: {
-	      "src": "https://news.ycombinator.com/favicon.ico"
-	    }
-	  })]), _h('div', {
-	    staticClass: ["nav"]
-	  }, [_h('div', {
-	    staticClass: ["link"],
-	    on: {
-	      "click": function($event) {
-	        _vm.jump('/top')
-	      }
-	    }
-	  }, [_h('text', {
+	  }, [_c('div', {
+	    staticClass: ["icon"]
+	  })]), _c('text', {
 	    staticClass: ["title"]
-	  }, ["Top"])]), _h('div', {
-	    staticClass: ["link"],
-	    on: {
-	      "click": function($event) {
-	        _vm.jump('/new')
-	      }
-	    }
-	  }, [_h('text', {
-	    staticClass: ["title"]
-	  }, ["New"])]), _h('div', {
-	    staticClass: ["link"],
-	    on: {
-	      "click": function($event) {
-	        _vm.jump('/show')
-	      }
-	    }
-	  }, [_h('text', {
-	    staticClass: ["title"]
-	  }, ["Show"])]), _h('div', {
-	    staticClass: ["link"],
-	    on: {
-	      "click": function($event) {
-	        _vm.jump('/ask')
-	      }
-	    }
-	  }, [_h('text', {
-	    staticClass: ["title"]
-	  }, ["Ask"])]), _h('div', {
-	    staticClass: ["link"],
-	    on: {
-	      "click": function($event) {
-	        _vm.jump('/job')
-	      }
-	    }
-	  }, [_h('text', {
-	    staticClass: ["title"]
-	  }, ["Job"])])])])
+	  }, [_vm._v(_vm._s(_vm.title))])])
 	},staticRenderFns: []}
 	module.exports.render._withStripped = true
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = []
 
 	/* styles */
-	__vue_styles__.push(__webpack_require__(14)
+	__vue_styles__.push(__webpack_require__(15)
 	)
 
 	/* script */
-	__vue_exports__ = __webpack_require__(15)
+	__vue_exports__ = __webpack_require__(16)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(19)
+	var __vue_template__ = __webpack_require__(17)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -3029,7 +3184,7 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "/Users/Hanks/Projects/weex/weex-hackernews/src/components/story.vue"
+	__vue_options__.__file = "C:\\Users\\fe\\www\\peppa\\src\\components\\filter.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 	__vue_options__.style = __vue_options__.style || {}
@@ -3043,335 +3198,537 @@
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	module.exports = {
-	  "cell-item": {
-	    "position": "relative",
+	  "filter": {
 	    "paddingTop": 20,
-	    "paddingBottom": 25,
-	    "paddingLeft": 100,
-	    "paddingRight": 40
-	  },
-	  "story-score": {
-	    "position": "absolute",
-	    "width": 100,
-	    "textAlign": "center",
-	    "left": 0,
-	    "top": 20,
-	    "fontSize": 32,
-	    "fontWeight": "bold",
-	    "color": "#FF6600"
-	  },
-	  "story-link": {
-	    "marginBottom": 25,
-	    "width": 610
-	  },
-	  "story-title": {
-	    "fontSize": 33,
-	    "color": "#404040"
-	  },
-	  "small-text": {
-	    "color": "#BBBBBB",
-	    "fontSize": 22,
-	    "marginBottom": 0,
-	    "fontFamily": "Verdana, Geneva, sans-serif"
-	  },
-	  "link-text": {
-	    "textDecoration": "underline"
-	  },
-	  "text-group": {
-	    "display": "flex",
+	    "paddingBottom": 20,
+	    "paddingLeft": 30,
+	    "paddingRight": 30,
+	    "height": 128,
 	    "flexDirection": "row",
-	    "flexWrap": "nowrap",
-	    "justifyContent": "flex-start",
-	    "alignItems": "center"
+	    "borderBottomWidth": 1,
+	    "borderBottomStyle": "solid",
+	    "borderBottomColor": "#dddddd"
 	  },
-	  "text-cell": {
-	    "flexGrow": 0
+	  "category": {
+	    "flex": 1,
+	    "height": 88,
+	    "borderRadius": 10,
+	    "backgroundColor": "#10AEFF"
+	  },
+	  "category-selected": {
+	    "paddingTop": 26,
+	    "paddingBottom": 26,
+	    "color": "#ffffff",
+	    "fontSize": 36,
+	    "textAlign": "center"
+	  },
+	  "region-text": {
+	    "paddingTop": 26,
+	    "paddingBottom": 26,
+	    "color": "#ffffff",
+	    "fontSize": 36,
+	    "textAlign": "center"
+	  },
+	  "regions": {
+	    "flex": 2,
+	    "height": 88,
+	    "marginLeft": 20,
+	    "borderRadius": 10,
+	    "backgroundColor": "#09BB07",
+	    "flexDirection": "row"
+	  },
+	  "region-item": {
+	    "flex": 1
+	  },
+	  "corner": {
+	    "marginTop": 43,
+	    "width": 30,
+	    "height": 3,
+	    "backgroundColor": "#ffffff"
 	  }
 	}
 
 /***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
+/* 16 */
+/***/ function(module, exports) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
-
-	var _externalLink = __webpack_require__(16);
-
-	var _externalLink2 = _interopRequireDefault(_externalLink);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
-	  components: { ExternalLink: _externalLink2.default },
-	  props: {
-	    story: {
-	      type: Object,
-	      required: true
-	    },
-	    'no-comment': {
-	      type: [String, Boolean],
-	      default: false
-	    }
-	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+		data: function data() {
+			return {
+				options: {},
+				visible: true,
+				category: {
+					optionIndex: 'default',
+					value: '车辆类型'
+				}
+			};
+		},
 
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = []
-
-	/* script */
-	__vue_exports__ = __webpack_require__(17)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(18)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/Users/Hanks/Projects/weex/weex-hackernews/src/components/external-link.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__.style = __vue_options__.style || {}
-	__vue_styles__.forEach(function (module) {
-	for (var name in module) {
-	__vue_options__.style[name] = module[name]
-	}
-	})
-
-	module.exports = __vue_exports__
-
+		methods: {
+			selectCategory: function selectCategory() {
+				var that = this;
+				picker.pick({
+					index: 0,
+					items: this.categoryOptions
+				}, function (ret) {
+					if (ret.result == 'success') {
+						console.log(ret.data);
+					}
+				});
+			}
+		}
+	};
 
 /***/ },
 /* 17 */
 /***/ function(module, exports) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	//
-	//
-	//
-	//
-
-	exports.default = {
-	  props: {
-	    url: {
-	      type: String,
-	      default: ''
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: ["filter"]
+	  }, [_c('div', {
+	    staticClass: ["category"],
+	    on: {
+	      "click": _vm.selectCategory
 	    }
-	  },
-	  methods: {
-	    open: function open() {
-	      if (this.$getConfig) {
-	        this.jump('/article/' + this.url);
-	      } else {
-	        window.open(this.url);
-	      }
-	    }
-	  }
-	};
+	  }, [_c('text', {
+	    staticClass: ["category-selected"]
+	  }, [_vm._v(_vm._s(_vm.category.value))])]), _vm._m(0)])
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: ["regions"]
+	  }, [_c('div', {
+	    staticClass: ["region-item"]
+	  }, [_c('text', {
+	    staticClass: ["region-text"]
+	  }, [_vm._v("出发地")])]), _c('div', {
+	    staticClass: ["corner"]
+	  }), _c('div', {
+	    staticClass: ["region-item"]
+	  }, [_c('text', {
+	    staticClass: ["region-text"]
+	  }, [_vm._v("目的地")])])])
+	}]}
+	module.exports.render._withStripped = true
 
 /***/ },
 /* 18 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _h('div', {
-	    on: {
-	      "click": _vm.open
-	    }
-	  }, [_vm._t("default")])
-	},staticRenderFns: []}
-	module.exports.render._withStripped = true
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _h('div', {
-	    staticClass: ["cell-item"]
-	  }, [_h('text', {
-	    staticClass: ["story-score"]
-	  }, [_vm._s(_vm.story.score)]), _h('external-link', {
-	    staticClass: ["story-link"],
-	    attrs: {
-	      "url": _vm.story.url
-	    }
-	  }, [_h('text', {
-	    staticClass: ["story-title"]
-	  }, [_vm._s(_vm.story.title)]), (_vm.story.url) ? _h('text', {
-	    staticClass: ["small-text"]
-	  }, ["(" + _vm._s(_vm._f("host")(_vm.story.url)) + ")"]) : _vm._e()]), _h('div', {
-	    staticClass: ["text-group"]
-	  }, [_h('text', {
-	    staticClass: ["small-text", "text-cell"]
-	  }, ["by "]), _h('div', {
-	    staticClass: ["text-cell"],
-	    on: {
-	      "click": function($event) {
-	        _vm.jump(("/user/" + (_vm.story.by)))
-	      }
-	    }
-	  }, [_h('text', {
-	    staticClass: ["small-text", "link-text"]
-	  }, [_vm._s(_vm.story.by)])]), _h('text', {
-	    staticClass: ["small-text", "text-cell"]
-	  }, [" | " + _vm._s(_vm._f("timeAgo")(_vm.story.time)) + " ago"]), (!_vm.noComment) ? _h('text', {
-	    staticClass: ["small-text", "text-cell"]
-	  }, [" | "]) : _vm._e(), (!_vm.noComment) ? _h('div', {
-	    staticClass: ["text-cell"],
-	    on: {
-	      "click": function($event) {
-	        _vm.jump(("/item/" + (_vm.story.id)))
-	      }
-	    }
-	  }, [_h('text', {
-	    staticClass: ["small-text", "link-text"]
-	  }, [_vm._s(_vm.story.descendants) + " comments"])]) : _vm._e()])])
-	},staticRenderFns: []}
-	module.exports.render._withStripped = true
-
-/***/ },
-/* 20 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _h('div', {
-	    staticClass: ["stories-view"],
-	    appendAsTree: true,
-	    attrs: {
-	      "append": "tree"
-	    }
-	  }, [_h('app-header'), _h('list', {
-	    staticClass: ["story-list"],
-	    attrs: {
-	      "loadmoreoffset": "50"
-	    },
-	    on: {
-	      "loadmore": _vm.loadMoreStories
-	    }
-	  }, [_vm._l((_vm.stories), function(story) {
-	    return _h('cell', {
-	      staticClass: ["story-cell"],
-	      appendAsTree: true,
-	      attrs: {
-	        "append": "tree"
-	      }
-	    }, [_h('story', {
-	      attrs: {
-	        "story": story
-	      }
-	    })])
-	  })]), (_vm.loading) ? _h('div', {
-	    staticClass: ["loading"]
-	  }, [_h('text', {
-	    staticClass: ["loading-text"]
-	  }, ["loading ..."])]) : _vm._e()])
-	},staticRenderFns: []}
-	module.exports.render._withStripped = true
-
-/***/ },
-/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = []
 
 	/* styles */
-	__vue_styles__.push(__webpack_require__(22)
+	__vue_styles__.push(__webpack_require__(19)
 	)
 
 	/* script */
-	__vue_exports__ = __webpack_require__(23)
+	__vue_exports__ = __webpack_require__(20)
+
+	/* template */
+	var __vue_template__ = __webpack_require__(21)
+	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+	if (
+	  typeof __vue_exports__.default === "object" ||
+	  typeof __vue_exports__.default === "function"
+	) {
+	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+	__vue_options__ = __vue_exports__ = __vue_exports__.default
+	}
+	if (typeof __vue_options__ === "function") {
+	  __vue_options__ = __vue_options__.options
+	}
+	__vue_options__.__file = "C:\\Users\\fe\\www\\peppa\\src\\components\\list-item.vue"
+	__vue_options__.render = __vue_template__.render
+	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+	__vue_options__.style = __vue_options__.style || {}
+	__vue_styles__.forEach(function (module) {
+	for (var name in module) {
+	__vue_options__.style[name] = module[name]
+	}
+	})
+
+	module.exports = __vue_exports__
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  "list-item": {
+	    "position": "relative",
+	    "paddingTop": 30,
+	    "paddingRight": 30,
+	    "paddingBottom": 20,
+	    "paddingLeft": 30
+	  },
+	  "header": {
+	    "flexDirection": "row"
+	  },
+	  "region": {
+	    "height": 40
+	  },
+	  "region-text": {
+	    "fontSize": 40
+	  },
+	  "corner": {
+	    "marginTop": 20,
+	    "marginLeft": 15,
+	    "marginRight": 15,
+	    "width": 40,
+	    "height": 3,
+	    "backgroundColor": "#999999"
+	  },
+	  "info": {
+	    "marginTop": 30,
+	    "flexDirection": "row"
+	  },
+	  "desc": {
+	    "fontSize": 32,
+	    "color": "#10AEFF"
+	  },
+	  "date": {
+	    "marginTop": 2,
+	    "marginLeft": 20,
+	    "fontSize": 28,
+	    "color": "#999999"
+	  },
+	  "footer": {
+	    "marginTop": 20,
+	    "height": 60,
+	    "flexDirection": "row"
+	  },
+	  "avatar": {
+	    "width": 60,
+	    "height": 60,
+	    "borderRadius": 50
+	  },
+	  "name": {
+	    "marginLeft": 20,
+	    "marginTop": 14,
+	    "fontSize": 32
+	  },
+	  "views": {
+	    "marginLeft": 20,
+	    "marginTop": 16,
+	    "fontSize": 28,
+	    "color": "#999999"
+	  },
+	  "tel": {
+	    "position": "absolute",
+	    "right": 30,
+	    "bottom": 30,
+	    "width": 80,
+	    "height": 80,
+	    "borderRadius": 50,
+	    "backgroundColor": "#09BB07"
+	  },
+	  "call-icon": {
+	    "marginTop": 24,
+	    "marginLeft": 24,
+	    "width": 32,
+	    "height": 32
+	  }
+	}
+
+/***/ },
+/* 20 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+
+	function Region(o) {
+		// 组合地区
+		var p = o.province,
+		    c = o.city,
+		    d = o.county;
+		return d ? p + '\xB7' + c + '\xB7' + d : c ? p + '\xB7' + c : p;
+	};
+	function desc(l, c, d) {
+		// 组合描述
+		var s = l + '/' + c;
+		return d ? s + '/' + d : s;
+	};
+	/*function computDate(d){
+		let now = +new Date(),
+			old = +new Date(`${d} 00:00:00`),
+			hour = 0,
+			day = 0;
+		let diff = now - old;
+		if(diff < 864E5){ // 一天之内
+			if(diff < 36E5){
+				return '刚刚'
+			}else{
+				hour = parseInt(diff/36E5);
+				return `${hour}小时前`
+			}
+		}else if(diff < 6048E5){
+			day = parseInt(diff/864E5);
+			return `${day}天前`	
+		}else{
+			return d
+		}
+	}*/
+	exports.default = {
+		props: {
+			corsdata: {
+				type: Object,
+				required: true
+			}
+		},
+		data: function data() {
+			return {
+				loading: true,
+				formInfo: Region(this.corsdata['formInfo']),
+				toInfo: Region(this.corsdata['toInfo']),
+				desc: desc(this.corsdata['length'], this.corsdata['cate'], this.corsdata['desc'])
+			};
+		},
+
+		methods: {
+			makePhoneCall: function makePhoneCall() {}
+		}
+	};
+
+/***/ },
+/* 21 */
+/***/ function(module, exports) {
+
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: ["list-item"]
+	  }, [_c('div', {
+	    staticClass: ["header"]
+	  }, [_c('div', {
+	    staticClass: ["region"]
+	  }, [_c('text', {
+	    staticClass: ["region-text"]
+	  }, [_vm._v(_vm._s(_vm.formInfo))])]), _c('div', {
+	    staticClass: ["corner"]
+	  }), _c('div', {
+	    staticClass: ["region"]
+	  }, [_c('text', {
+	    staticClass: ["region-text"]
+	  }, [_vm._v(_vm._s(_vm.toInfo))])])]), _c('div', {
+	    staticClass: ["info"]
+	  }, [_c('text', {
+	    staticClass: ["desc"]
+	  }, [_vm._v(_vm._s(_vm.desc))]), _c('text', {
+	    staticClass: ["date"]
+	  }, [_vm._v(_vm._s(_vm.corsdata['date']))])]), _c('div', {
+	    staticClass: ["footer"]
+	  }, [(_vm.corsdata.avatar) ? _c('image', {
+	    staticClass: ["avatar"],
+	    attrs: {
+	      "src": _vm.corsdata.avatar
+	    }
+	  }) : _vm._e(), _c('text', {
+	    staticClass: ["name"]
+	  }, [_vm._v(_vm._s(_vm.corsdata.name))]), (_vm.corsdata.views > 0) ? _c('text', {
+	    staticClass: ["views"]
+	  }, [_vm._v(_vm._s(_vm.corsdata.views) + "车主查看")]) : _vm._e()]), _c('div', {
+	    staticClass: ["tel"],
+	    on: {
+	      "click": _vm.makePhoneCall
+	    }
+	  }, [_c('image', {
+	    staticClass: ["call-icon"],
+	    attrs: {
+	      "src": "https://s.kcimg.cn/app/icon/weex/tel.png"
+	    }
+	  })])])
+	},staticRenderFns: []}
+	module.exports.render._withStripped = true
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_exports__, __vue_options__
+	var __vue_styles__ = []
+
+	/* styles */
+	__vue_styles__.push(__webpack_require__(23)
+	)
 
 	/* template */
 	var __vue_template__ = __webpack_require__(24)
@@ -3386,7 +3743,7 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "/Users/Hanks/Projects/weex/weex-hackernews/src/views/ArticleView.vue"
+	__vue_options__.__file = "C:\\Users\\fe\\www\\peppa\\src\\components\\empty.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 	__vue_options__.style = __vue_options__.style || {}
@@ -3400,90 +3757,37 @@
 
 
 /***/ },
-/* 22 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  "webview": {
-	    "flex": 1
-	  },
-	  "fixed-button": {
-	    "position": "absolute",
-	    "bottom": 50,
-	    "right": 50,
-	    "backgroundColor": "#FC6621",
-	    "borderRadius": 10,
-	    "width": 120,
-	    "padding": 15,
-	    "color": "#FFFFFF",
-	    "textAlign": "center"
-	  }
-	}
-
-/***/ },
 /* 23 */
 /***/ function(module, exports) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
-	exports.default = {
-	  computed: {
-	    url: function url() {
-	      if (this.$route && this.$route.params) {
-	        return this.$route.params.url;
-	      }
-	      return 'https://www.alibaba.com/';
-	    }
+	module.exports = {
+	  "empty": {
+	    "flex": 1,
+	    "alignItems": "center",
+	    "flexDirection": "row"
+	  },
+	  "text": {
+	    "width": 100,
+	    "flex": 1,
+	    "fontSize": 32,
+	    "color": "#999999",
+	    "textAlign": "center"
 	  }
-	};
+	}
 
 /***/ },
 /* 24 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _h('div', [_h('web', {
-	    staticClass: ["webview"],
-	    attrs: {
-	      "src": _vm._f("https")(_vm.url)
-	    }
-	  }), _h('text', {
-	    staticClass: ["fixed-button"],
-	    on: {
-	      "click": function($event) {
-	        _vm.jump("/")
-	      }
-	    }
-	  }, ["back"])])
-	},staticRenderFns: []}
+	  return _vm._m(0)
+	},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: ["empty"]
+	  }, [_c('text', {
+	    staticClass: ["text"]
+	  }, [_vm._v("货源已被抢光啦")])])
+	}]}
 	module.exports.render._withStripped = true
 
 /***/ },
@@ -3501,7 +3805,7 @@
 	__vue_exports__ = __webpack_require__(27)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(37)
+	var __vue_template__ = __webpack_require__(28)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -3513,7 +3817,7 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "/Users/Hanks/Projects/weex/weex-hackernews/src/views/CommentView.vue"
+	__vue_options__.__file = "C:\\Users\\fe\\www\\peppa\\src\\components\\options.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 	__vue_options__.style = __vue_options__.style || {}
@@ -3531,1473 +3835,181 @@
 /***/ function(module, exports) {
 
 	module.exports = {
-	  "commont-view": {
-	    "backgroundColor": "#F5F5F5"
+	  "pop": {
+	    "position": "absolute",
+	    "width": 100,
+	    "backgroundColor": "rgba(0,0,0,0.8)",
+	    "alignItems": "flex-end"
 	  },
-	  "story-cell": {
-	    "marginBottom": 3,
-	    "borderBottomWidth": 2,
-	    "borderBottomStyle": "solid",
-	    "borderBottomColor": "#DDDDDD",
-	    "backgroundColor": "#FFFFFF"
-	  },
-	  "comments-box": {
-	    "marginTop": 20,
-	    "backgroundColor": "#FFFFFF",
-	    "paddingLeft": 35,
-	    "paddingRight": 35
-	  },
-	  "comment-count": {
-	    "fontSize": 36,
-	    "paddingTop": 30,
-	    "paddingBottom": 30,
-	    "borderBottomStyle": "solid",
-	    "borderBottomWidth": 2,
-	    "borderBottomColor": "#EEEEEE",
-	    "marginBottom": 30
+	  "pop-content": {
+	    "width": 100,
+	    "background": "#fff"
 	  }
 	}
 
 /***/ },
 /* 27 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
-
-	var _appHeader = __webpack_require__(10);
-
-	var _appHeader2 = _interopRequireDefault(_appHeader);
-
-	var _story = __webpack_require__(13);
-
-	var _story2 = _interopRequireDefault(_story);
-
-	var _comment = __webpack_require__(28);
-
-	var _comment2 = _interopRequireDefault(_comment);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
+	//
 
 	exports.default = {
-	  components: { AppHeader: _appHeader2.default, Story: _story2.default, Comment: _comment2.default },
-	  data: function data() {
-	    return {
-	      loading: true
-	    };
-	  },
-
-
-	  computed: {
-	    id: function id() {
-	      if (this.$route && this.$route.params) {
-	        return this.$route.params.id;
-	      }
-	      return '12922141';
-	    },
-	    story: function story() {
-	      return this.$store.state.items[this.id];
-	    }
-	  },
-
-	  methods: {
-	    fetchItem: function fetchItem() {
-	      return this.$store.dispatch('FETCH_ITEMS', {
-	        ids: [this.id]
-	      });
-	    },
-	    fetchComments: function fetchComments(item) {
-	      var _this = this;
-
-	      if (item.kids) {
-	        return this.$store.dispatch('FETCH_ITEMS', {
-	          ids: item.kids
-	        }).then(function () {
-	          return Promise.all(item.kids.map(function (id) {
-	            return _this.fetchComments(_this.$store.state.items[id]);
-	          }));
-	        });
-	      }
-	    },
-	    fetchItemAndComments: function fetchItemAndComments() {
-	      var _this2 = this;
-
-	      return this.fetchItem().then(function () {
-	        var _$store$state = _this2.$store.state,
-	            items = _$store$state.items,
-	            route = _$store$state.route;
-
-	        return _this2.fetchComments(items[_this2.id]);
-	      });
-	    }
-	  },
-
-	  created: function created() {
-	    var _this3 = this;
-
-	    this.fetchItemAndComments().then(function () {
-	      _this3.loading = false;
-	    });
-	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
+		data: function data() {
+			return {
+				lengthSelected: '',
+				cateSelected: '',
+				cates: ['不限车型', '平板车', '栏板车', '高栏车', '厢式车', '冷藏车', '槽罐车', '骨架车', '大件运输', '自卸车'],
+				length: ['不限车长', '4.2', '6.8', '9.6', '13', '15', '17.5']
+			};
+		}
+	};
 
 /***/ },
 /* 28 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	var __vue_exports__, __vue_options__
-	var __vue_styles__ = []
-
-	/* styles */
-	__vue_styles__.push(__webpack_require__(29)
-	)
-
-	/* script */
-	__vue_exports__ = __webpack_require__(30)
-
-	/* template */
-	var __vue_template__ = __webpack_require__(36)
-	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-	if (
-	  typeof __vue_exports__.default === "object" ||
-	  typeof __vue_exports__.default === "function"
-	) {
-	if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-	__vue_options__ = __vue_exports__ = __vue_exports__.default
-	}
-	if (typeof __vue_options__ === "function") {
-	  __vue_options__ = __vue_options__.options
-	}
-	__vue_options__.__file = "/Users/Hanks/Projects/weex/weex-hackernews/src/components/comment.vue"
-	__vue_options__.render = __vue_template__.render
-	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-	__vue_options__.style = __vue_options__.style || {}
-	__vue_styles__.forEach(function (module) {
-	for (var name in module) {
-	__vue_options__.style[name] = module[name]
-	}
-	})
-
-	module.exports = __vue_exports__
-
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: ["pop"]
+	  }, [_c('div', {
+	    staticClass: ["pop-content"]
+	  }, [_c('div', {
+	    staticClass: ["selected"]
+	  }, [_c('text', [_vm._v("当前选择车长:" + _vm._s(_vm.lengthSelected))])]), _c('list', {
+	    staticClass: ["list"]
+	  }, _vm._l((_vm.cates), function(cate, index) {
+	    return _c('cell', {
+	      staticClass: ["cell"],
+	      appendAsTree: true,
+	      attrs: {
+	        "append": "tree"
+	      }
+	    }, [_c('text', [_vm._v(_vm._s(cate))])])
+	  })), _c('div', {
+	    staticClass: ["selected"]
+	  }, [_c('text', [_vm._v("当前选择车型:" + _vm._s(_vm.cateSelected))])]), _c('list', {
+	    staticClass: ["list"]
+	  }, _vm._l((_vm.length), function(l, index) {
+	    return _c('cell', {
+	      staticClass: ["cell"],
+	      appendAsTree: true,
+	      attrs: {
+	        "append": "tree"
+	      }
+	    }, [_c('text', [_vm._v(_vm._s(l))])])
+	  }))])])
+	},staticRenderFns: []}
+	module.exports.render._withStripped = true
 
 /***/ },
 /* 29 */
 /***/ function(module, exports) {
 
-	module.exports = {
-	  "comment": {
-	    "paddingBottom": 25,
-	    "borderBottomWidth": 1,
-	    "borderBottomStyle": "solid",
-	    "borderBottomColor": "#DDDDDD",
-	    "marginBottom": 35,
-	    "position": "relative"
-	  },
-	  "deep-comment": {
-	    "marginTop": 25,
-	    "position": "relative"
-	  },
-	  "text-group": {
-	    "display": "flex",
-	    "flexDirection": "row",
-	    "justifyContent": "flex-start",
-	    "alignItems": "center"
-	  },
-	  "text-cell": {
-	    "flexGrow": 0
-	  },
-	  "small-text": {
-	    "color": "#BBBBBB",
-	    "fontSize": 22,
-	    "lineHeight": 22,
-	    "marginBottom": 10,
-	    "fontFamily": "Verdana, Geneva, sans-serif"
-	  },
-	  "link": {
-	    "textDecoration": "underline"
-	  },
-	  "comment-btn": {
-	    "position": "absolute",
-	    "fontFamily": "Consolas, \"Liberation Mono\", Menlo, Courier, monospace"
-	  },
-	  "comment-title": {
-	    "fontSize": 26,
-	    "color": "#404040"
-	  }
-	}
+	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+	  return _c('div', {
+	    staticClass: ["list-view"]
+	  }, [_c('app-header', {
+	    attrs: {
+	      "title": "货源列表"
+	    }
+	  }), _c('filter'), (_vm.goods.length) ? _c('list', {
+	    staticClass: ["goods-list"],
+	    attrs: {
+	      "loadmoreoffset": "84"
+	    },
+	    on: {
+	      "loadmore": _vm.fetch
+	    }
+	  }, [_c('refresh', {
+	    staticClass: ["refresh"],
+	    attrs: {
+	      "display": _vm.refreshing ? 'show' : 'hide'
+	    },
+	    on: {
+	      "refresh": _vm.onrefresh
+	    }
+	  }, [_c('text', {
+	    staticClass: ["refresh-indicator"]
+	  }, [_vm._v("···")])]), _vm._l((_vm.goods), function(item, index) {
+	    return _c('cell', {
+	      staticClass: ["goods-cell"],
+	      appendAsTree: true,
+	      attrs: {
+	        "append": "tree"
+	      }
+	    }, [_c('list-item', {
+	      attrs: {
+	        "corsdata": item
+	      }
+	    })], 1)
+	  }), _c('cell', {
+	    staticClass: ["loading"],
+	    appendAsTree: true,
+	    attrs: {
+	      "append": "tree"
+	    }
+	  }, [_c('text', {
+	    staticClass: ["indicator"]
+	  }, [_vm._v(_vm._s(_vm.indicator))])])], 2) : _vm._e(), (!_vm.goods.length) ? _c('empty') : _vm._e()], 1)
+	},staticRenderFns: []}
+	module.exports.render._withStripped = true
 
 /***/ },
 /* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _store = __webpack_require__(31);
-
-	var _store2 = _interopRequireDefault(_store);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	  name: 'comment',
-	  props: {
-	    id: {
-	      type: [Number, String],
-	      required: true,
-	      default: '13230551'
-	    },
-	    depth: {
-	      type: [Number, String],
-	      default: 1
-	    }
-	  },
-
-	  data: function data() {
-	    return {
-	      collapsed: false
-	    };
-	  },
-
-
-	  computed: {
-	    className: function className() {
-	      return Number(this.depth) > 1 ? ['deep-comment'] : ['comment'];
-	    },
-	    indent: function indent() {
-	      return Number(this.depth) > 4 ? 0 : '50px';
-	    },
-	    comment: function comment() {
-	      return _store2.default.state.items[this.id];
-	    }
-	  },
-
-	  methods: {
-	    toggle: function toggle(state) {
-	      this.collapsed = state === undefined ? !this.collapsed : state;
-	    }
-	  }
-	}; //
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-
-/***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _vuex = __webpack_require__(32);
-
-	var _vuex2 = _interopRequireDefault(_vuex);
-
-	var _actions = __webpack_require__(33);
-
-	var actions = _interopRequireWildcard(_actions);
-
-	var _mutations = __webpack_require__(35);
-
-	var mutations = _interopRequireWildcard(_mutations);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	// Vuex is auto installed on the web
-	if (WXEnvironment.platform !== 'Web') {
-	  Vue.use(_vuex2.default);
-	} // import Vue from 'vue'
-
-
-	var store = new _vuex2.default.Store({
-	  actions: actions,
-	  mutations: mutations,
-
-	  state: {
-	    activeType: null,
-	    items: {},
-	    users: {},
-	    counts: {
-	      top: 20,
-	      new: 20,
-	      show: 15,
-	      ask: 15,
-	      job: 15
-	    },
-	    lists: {
-	      top: [],
-	      new: [],
-	      show: [],
-	      ask: [],
-	      job: []
-	    }
-	  },
-
-	  getters: {
-	    // ids of the items that should be currently displayed based on
-	    // current list type and current pagination
-	    activeIds: function activeIds(state) {
-	      var activeType = state.activeType,
-	          lists = state.lists,
-	          counts = state.counts;
-
-	      return activeType ? lists[activeType].slice(0, counts[activeType]) : [];
-	    },
-
-
-	    // items that should be currently displayed.
-	    // this Array may not be fully fetched.
-	    activeItems: function activeItems(state, getters) {
-	      return getters.activeIds.map(function (id) {
-	        return state.items[id];
-	      }).filter(function (_) {
-	        return _;
-	      });
-	    }
-	  }
-	});
-
-	exports.default = store;
-
-/***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * vuex v2.1.2
-	 * (c) 2017 Evan You
-	 * @license MIT
-	 */
-	(function (global, factory) {
-		 true ? module.exports = factory() :
-		typeof define === 'function' && define.amd ? define(factory) :
-		(global.Vuex = factory());
-	}(this, (function () { 'use strict';
-
-	var devtoolHook =
-	  typeof window !== 'undefined' &&
-	  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
-
-	function devtoolPlugin (store) {
-	  if (!devtoolHook) { return }
-
-	  store._devtoolHook = devtoolHook;
-
-	  devtoolHook.emit('vuex:init', store);
-
-	  devtoolHook.on('vuex:travel-to-state', function (targetState) {
-	    store.replaceState(targetState);
-	  });
-
-	  store.subscribe(function (mutation, state) {
-	    devtoolHook.emit('vuex:mutation', mutation, state);
-	  });
-	}
-
-	var applyMixin = function (Vue) {
-	  var version = Number(Vue.version.split('.')[0]);
-
-	  if (version >= 2) {
-	    var usesInit = Vue.config._lifecycleHooks.indexOf('init') > -1;
-	    Vue.mixin(usesInit ? { init: vuexInit } : { beforeCreate: vuexInit });
-	  } else {
-	    // override init and inject vuex init procedure
-	    // for 1.x backwards compatibility.
-	    var _init = Vue.prototype._init;
-	    Vue.prototype._init = function (options) {
-	      if ( options === void 0 ) options = {};
-
-	      options.init = options.init
-	        ? [vuexInit].concat(options.init)
-	        : vuexInit;
-	      _init.call(this, options);
-	    };
-	  }
-
-	  /**
-	   * Vuex init hook, injected into each instances init hooks list.
-	   */
-
-	  function vuexInit () {
-	    var options = this.$options;
-	    // store injection
-	    if (options.store) {
-	      this.$store = options.store;
-	    } else if (options.parent && options.parent.$store) {
-	      this.$store = options.parent.$store;
-	    }
-	  }
-	};
-
-	var mapState = normalizeNamespace(function (namespace, states) {
-	  var res = {};
-	  normalizeMap(states).forEach(function (ref) {
-	    var key = ref.key;
-	    var val = ref.val;
-
-	    res[key] = function mappedState () {
-	      var state = this.$store.state;
-	      var getters = this.$store.getters;
-	      if (namespace) {
-	        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
-	        if (!module) {
-	          return
-	        }
-	        state = module.context.state;
-	        getters = module.context.getters;
-	      }
-	      return typeof val === 'function'
-	        ? val.call(this, state, getters)
-	        : state[val]
-	    };
-	  });
-	  return res
-	});
-
-	var mapMutations = normalizeNamespace(function (namespace, mutations) {
-	  var res = {};
-	  normalizeMap(mutations).forEach(function (ref) {
-	    var key = ref.key;
-	    var val = ref.val;
-
-	    val = namespace + val;
-	    res[key] = function mappedMutation () {
-	      var args = [], len = arguments.length;
-	      while ( len-- ) args[ len ] = arguments[ len ];
-
-	      if (namespace && !getModuleByNamespace(this.$store, 'mapMutations', namespace)) {
-	        return
-	      }
-	      return this.$store.commit.apply(this.$store, [val].concat(args))
-	    };
-	  });
-	  return res
-	});
-
-	var mapGetters = normalizeNamespace(function (namespace, getters) {
-	  var res = {};
-	  normalizeMap(getters).forEach(function (ref) {
-	    var key = ref.key;
-	    var val = ref.val;
-
-	    val = namespace + val;
-	    res[key] = function mappedGetter () {
-	      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
-	        return
-	      }
-	      if (!(val in this.$store.getters)) {
-	        console.error(("[vuex] unknown getter: " + val));
-	        return
-	      }
-	      return this.$store.getters[val]
-	    };
-	  });
-	  return res
-	});
-
-	var mapActions = normalizeNamespace(function (namespace, actions) {
-	  var res = {};
-	  normalizeMap(actions).forEach(function (ref) {
-	    var key = ref.key;
-	    var val = ref.val;
-
-	    val = namespace + val;
-	    res[key] = function mappedAction () {
-	      var args = [], len = arguments.length;
-	      while ( len-- ) args[ len ] = arguments[ len ];
-
-	      if (namespace && !getModuleByNamespace(this.$store, 'mapActions', namespace)) {
-	        return
-	      }
-	      return this.$store.dispatch.apply(this.$store, [val].concat(args))
-	    };
-	  });
-	  return res
-	});
-
-	function normalizeMap (map) {
-	  return Array.isArray(map)
-	    ? map.map(function (key) { return ({ key: key, val: key }); })
-	    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
-	}
-
-	function normalizeNamespace (fn) {
-	  return function (namespace, map) {
-	    if (typeof namespace !== 'string') {
-	      map = namespace;
-	      namespace = '';
-	    } else if (namespace.charAt(namespace.length - 1) !== '/') {
-	      namespace += '/';
-	    }
-	    return fn(namespace, map)
-	  }
-	}
-
-	function getModuleByNamespace (store, helper, namespace) {
-	  var module = store._modulesNamespaceMap[namespace];
-	  if (!module) {
-	    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
-	  }
-	  return module
-	}
-
-	/**
-	 * Get the first item that pass the test
-	 * by second argument function
-	 *
-	 * @param {Array} list
-	 * @param {Function} f
-	 * @return {*}
-	 */
-	/**
-	 * Deep copy the given object considering circular structure.
-	 * This function caches all nested objects and its copies.
-	 * If it detects circular structure, use cached copy to avoid infinite loop.
-	 *
-	 * @param {*} obj
-	 * @param {Array<Object>} cache
-	 * @return {*}
-	 */
-
-
-	/**
-	 * forEach for object
-	 */
-	function forEachValue (obj, fn) {
-	  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
-	}
-
-	function isObject (obj) {
-	  return obj !== null && typeof obj === 'object'
-	}
-
-	function isPromise (val) {
-	  return val && typeof val.then === 'function'
-	}
-
-	function assert (condition, msg) {
-	  if (!condition) { throw new Error(("[vuex] " + msg)) }
-	}
-
-	var Module = function Module (rawModule, runtime) {
-	  this.runtime = runtime;
-	  this._children = Object.create(null);
-	  this._rawModule = rawModule;
-	};
-
-	var prototypeAccessors$1 = { state: {},namespaced: {} };
-
-	prototypeAccessors$1.state.get = function () {
-	  return this._rawModule.state || {}
-	};
-
-	prototypeAccessors$1.namespaced.get = function () {
-	  return !!this._rawModule.namespaced
-	};
-
-	Module.prototype.addChild = function addChild (key, module) {
-	  this._children[key] = module;
-	};
-
-	Module.prototype.removeChild = function removeChild (key) {
-	  delete this._children[key];
-	};
-
-	Module.prototype.getChild = function getChild (key) {
-	  return this._children[key]
-	};
-
-	Module.prototype.update = function update (rawModule) {
-	  this._rawModule.namespaced = rawModule.namespaced;
-	  if (rawModule.actions) {
-	    this._rawModule.actions = rawModule.actions;
-	  }
-	  if (rawModule.mutations) {
-	    this._rawModule.mutations = rawModule.mutations;
-	  }
-	  if (rawModule.getters) {
-	    this._rawModule.getters = rawModule.getters;
-	  }
-	};
-
-	Module.prototype.forEachChild = function forEachChild (fn) {
-	  forEachValue(this._children, fn);
-	};
-
-	Module.prototype.forEachGetter = function forEachGetter (fn) {
-	  if (this._rawModule.getters) {
-	    forEachValue(this._rawModule.getters, fn);
-	  }
-	};
-
-	Module.prototype.forEachAction = function forEachAction (fn) {
-	  if (this._rawModule.actions) {
-	    forEachValue(this._rawModule.actions, fn);
-	  }
-	};
-
-	Module.prototype.forEachMutation = function forEachMutation (fn) {
-	  if (this._rawModule.mutations) {
-	    forEachValue(this._rawModule.mutations, fn);
-	  }
-	};
-
-	Object.defineProperties( Module.prototype, prototypeAccessors$1 );
-
-	var ModuleCollection = function ModuleCollection (rawRootModule) {
-	  var this$1 = this;
-
-	  // register root module (Vuex.Store options)
-	  this.root = new Module(rawRootModule, false);
-
-	  // register all nested modules
-	  if (rawRootModule.modules) {
-	    forEachValue(rawRootModule.modules, function (rawModule, key) {
-	      this$1.register([key], rawModule, false);
-	    });
-	  }
-	};
-
-	ModuleCollection.prototype.get = function get (path) {
-	  return path.reduce(function (module, key) {
-	    return module.getChild(key)
-	  }, this.root)
-	};
-
-	ModuleCollection.prototype.getNamespace = function getNamespace (path) {
-	  var module = this.root;
-	  return path.reduce(function (namespace, key) {
-	    module = module.getChild(key);
-	    return namespace + (module.namespaced ? key + '/' : '')
-	  }, '')
-	};
-
-	ModuleCollection.prototype.update = function update$1 (rawRootModule) {
-	  update(this.root, rawRootModule);
-	};
-
-	ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
-	    var this$1 = this;
-	    if ( runtime === void 0 ) runtime = true;
-
-	  var parent = this.get(path.slice(0, -1));
-	  var newModule = new Module(rawModule, runtime);
-	  parent.addChild(path[path.length - 1], newModule);
-
-	  // register nested modules
-	  if (rawModule.modules) {
-	    forEachValue(rawModule.modules, function (rawChildModule, key) {
-	      this$1.register(path.concat(key), rawChildModule, runtime);
-	    });
-	  }
-	};
-
-	ModuleCollection.prototype.unregister = function unregister (path) {
-	  var parent = this.get(path.slice(0, -1));
-	  var key = path[path.length - 1];
-	  if (!parent.getChild(key).runtime) { return }
-
-	  parent.removeChild(key);
-	};
-
-	function update (targetModule, newModule) {
-	  // update target module
-	  targetModule.update(newModule);
-
-	  // update nested modules
-	  if (newModule.modules) {
-	    for (var key in newModule.modules) {
-	      if (!targetModule.getChild(key)) {
-	        console.warn(
-	          "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
-	          'manual reload is needed'
-	        );
-	        return
-	      }
-	      update(targetModule.getChild(key), newModule.modules[key]);
-	    }
-	  }
-	}
-
-	var Vue; // bind on install
-
-	var Store = function Store (options) {
-	  var this$1 = this;
-	  if ( options === void 0 ) options = {};
-
-	  assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
-	  assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
-
-	  var state = options.state; if ( state === void 0 ) state = {};
-	  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
-	  var strict = options.strict; if ( strict === void 0 ) strict = false;
-
-	  // store internal state
-	  this._committing = false;
-	  this._actions = Object.create(null);
-	  this._mutations = Object.create(null);
-	  this._wrappedGetters = Object.create(null);
-	  this._modules = new ModuleCollection(options);
-	  this._modulesNamespaceMap = Object.create(null);
-	  this._subscribers = [];
-	  this._watcherVM = new Vue();
-
-	  // bind commit and dispatch to self
-	  var store = this;
-	  var ref = this;
-	  var dispatch = ref.dispatch;
-	  var commit = ref.commit;
-	  this.dispatch = function boundDispatch (type, payload) {
-	    return dispatch.call(store, type, payload)
-	  };
-	  this.commit = function boundCommit (type, payload, options) {
-	    return commit.call(store, type, payload, options)
-	  };
-
-	  // strict mode
-	  this.strict = strict;
-
-	  // init root module.
-	  // this also recursively registers all sub-modules
-	  // and collects all module getters inside this._wrappedGetters
-	  installModule(this, state, [], this._modules.root);
-
-	  // initialize the store vm, which is responsible for the reactivity
-	  // (also registers _wrappedGetters as computed properties)
-	  resetStoreVM(this, state);
-
-	  // apply plugins
-	  plugins.concat(devtoolPlugin).forEach(function (plugin) { return plugin(this$1); });
-	};
-
-	var prototypeAccessors = { state: {} };
-
-	prototypeAccessors.state.get = function () {
-	  return this._vm.$data.state
-	};
-
-	prototypeAccessors.state.set = function (v) {
-	  assert(false, "Use store.replaceState() to explicit replace store state.");
-	};
-
-	Store.prototype.commit = function commit (_type, _payload, _options) {
-	    var this$1 = this;
-
-	  // check object-style commit
-	  var ref = unifyObjectStyle(_type, _payload, _options);
-	    var type = ref.type;
-	    var payload = ref.payload;
-	    var options = ref.options;
-
-	  var mutation = { type: type, payload: payload };
-	  var entry = this._mutations[type];
-	  if (!entry) {
-	    console.error(("[vuex] unknown mutation type: " + type));
-	    return
-	  }
-	  this._withCommit(function () {
-	    entry.forEach(function commitIterator (handler) {
-	      handler(payload);
-	    });
-	  });
-	  this._subscribers.forEach(function (sub) { return sub(mutation, this$1.state); });
-
-	  if (options && options.silent) {
-	    console.warn(
-	      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
-	      'Use the filter functionality in the vue-devtools'
-	    );
-	  }
-	};
-
-	Store.prototype.dispatch = function dispatch (_type, _payload) {
-	  // check object-style dispatch
-	  var ref = unifyObjectStyle(_type, _payload);
-	    var type = ref.type;
-	    var payload = ref.payload;
-
-	  var entry = this._actions[type];
-	  if (!entry) {
-	    console.error(("[vuex] unknown action type: " + type));
-	    return
-	  }
-	  return entry.length > 1
-	    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
-	    : entry[0](payload)
-	};
-
-	Store.prototype.subscribe = function subscribe (fn) {
-	  var subs = this._subscribers;
-	  if (subs.indexOf(fn) < 0) {
-	    subs.push(fn);
-	  }
-	  return function () {
-	    var i = subs.indexOf(fn);
-	    if (i > -1) {
-	      subs.splice(i, 1);
-	    }
-	  }
-	};
-
-	Store.prototype.watch = function watch (getter, cb, options) {
-	    var this$1 = this;
-
-	  assert(typeof getter === 'function', "store.watch only accepts a function.");
-	  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
-	};
-
-	Store.prototype.replaceState = function replaceState (state) {
-	    var this$1 = this;
-
-	  this._withCommit(function () {
-	    this$1._vm.state = state;
-	  });
-	};
-
-	Store.prototype.registerModule = function registerModule (path, rawModule) {
-	  if (typeof path === 'string') { path = [path]; }
-	  assert(Array.isArray(path), "module path must be a string or an Array.");
-	  this._modules.register(path, rawModule);
-	  installModule(this, this.state, path, this._modules.get(path));
-	  // reset store to update getters...
-	  resetStoreVM(this, this.state);
-	};
-
-	Store.prototype.unregisterModule = function unregisterModule (path) {
-	    var this$1 = this;
-
-	  if (typeof path === 'string') { path = [path]; }
-	  assert(Array.isArray(path), "module path must be a string or an Array.");
-	  this._modules.unregister(path);
-	  this._withCommit(function () {
-	    var parentState = getNestedState(this$1.state, path.slice(0, -1));
-	    Vue.delete(parentState, path[path.length - 1]);
-	  });
-	  resetStore(this);
-	};
-
-	Store.prototype.hotUpdate = function hotUpdate (newOptions) {
-	  this._modules.update(newOptions);
-	  resetStore(this, true);
-	};
-
-	Store.prototype._withCommit = function _withCommit (fn) {
-	  var committing = this._committing;
-	  this._committing = true;
-	  fn();
-	  this._committing = committing;
-	};
-
-	Object.defineProperties( Store.prototype, prototypeAccessors );
-
-	function resetStore (store, hot) {
-	  store._actions = Object.create(null);
-	  store._mutations = Object.create(null);
-	  store._wrappedGetters = Object.create(null);
-	  store._modulesNamespaceMap = Object.create(null);
-	  var state = store.state;
-	  // init all modules
-	  installModule(store, state, [], store._modules.root, true);
-	  // reset vm
-	  resetStoreVM(store, state, hot);
-	}
-
-	function resetStoreVM (store, state, hot) {
-	  var oldVm = store._vm;
-
-	  // bind store public getters
-	  store.getters = {};
-	  var wrappedGetters = store._wrappedGetters;
-	  var computed = {};
-	  forEachValue(wrappedGetters, function (fn, key) {
-	    // use computed to leverage its lazy-caching mechanism
-	    computed[key] = function () { return fn(store); };
-	    Object.defineProperty(store.getters, key, {
-	      get: function () { return store._vm[key]; },
-	      enumerable: true // for local getters
-	    });
-	  });
-
-	  // use a Vue instance to store the state tree
-	  // suppress warnings just in case the user has added
-	  // some funky global mixins
-	  var silent = Vue.config.silent;
-	  Vue.config.silent = true;
-	  store._vm = new Vue({
-	    data: { state: state },
-	    computed: computed
-	  });
-	  Vue.config.silent = silent;
-
-	  // enable strict mode for new vm
-	  if (store.strict) {
-	    enableStrictMode(store);
-	  }
-
-	  if (oldVm) {
-	    if (hot) {
-	      // dispatch changes in all subscribed watchers
-	      // to force getter re-evaluation for hot reloading.
-	      store._withCommit(function () {
-	        oldVm.state = null;
-	      });
-	    }
-	    Vue.nextTick(function () { return oldVm.$destroy(); });
-	  }
-	}
-
-	function installModule (store, rootState, path, module, hot) {
-	  var isRoot = !path.length;
-	  var namespace = store._modules.getNamespace(path);
-
-	  // register in namespace map
-	  if (namespace) {
-	    store._modulesNamespaceMap[namespace] = module;
-	  }
-
-	  // set state
-	  if (!isRoot && !hot) {
-	    var parentState = getNestedState(rootState, path.slice(0, -1));
-	    var moduleName = path[path.length - 1];
-	    store._withCommit(function () {
-	      Vue.set(parentState, moduleName, module.state);
-	    });
-	  }
-
-	  var local = module.context = makeLocalContext(store, namespace, path);
-
-	  module.forEachMutation(function (mutation, key) {
-	    var namespacedType = namespace + key;
-	    registerMutation(store, namespacedType, mutation, local);
-	  });
-
-	  module.forEachAction(function (action, key) {
-	    var namespacedType = namespace + key;
-	    registerAction(store, namespacedType, action, local);
-	  });
-
-	  module.forEachGetter(function (getter, key) {
-	    var namespacedType = namespace + key;
-	    registerGetter(store, namespacedType, getter, local);
-	  });
-
-	  module.forEachChild(function (child, key) {
-	    installModule(store, rootState, path.concat(key), child, hot);
-	  });
-	}
-
-	/**
-	 * make localized dispatch, commit, getters and state
-	 * if there is no namespace, just use root ones
-	 */
-	function makeLocalContext (store, namespace, path) {
-	  var noNamespace = namespace === '';
-
-	  var local = {
-	    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
-	      var args = unifyObjectStyle(_type, _payload, _options);
-	      var payload = args.payload;
-	      var options = args.options;
-	      var type = args.type;
-
-	      if (!options || !options.root) {
-	        type = namespace + type;
-	        if (!store._actions[type]) {
-	          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
-	          return
-	        }
-	      }
-
-	      return store.dispatch(type, payload)
-	    },
-
-	    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
-	      var args = unifyObjectStyle(_type, _payload, _options);
-	      var payload = args.payload;
-	      var options = args.options;
-	      var type = args.type;
-
-	      if (!options || !options.root) {
-	        type = namespace + type;
-	        if (!store._mutations[type]) {
-	          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
-	          return
-	        }
-	      }
-
-	      store.commit(type, payload, options);
-	    }
-	  };
-
-	  // getters and state object must be gotten lazily
-	  // because they will be changed by vm update
-	  Object.defineProperties(local, {
-	    getters: {
-	      get: noNamespace
-	        ? function () { return store.getters; }
-	        : function () { return makeLocalGetters(store, namespace); }
-	    },
-	    state: {
-	      get: function () { return getNestedState(store.state, path); }
-	    }
-	  });
-
-	  return local
-	}
-
-	function makeLocalGetters (store, namespace) {
-	  var gettersProxy = {};
-
-	  var splitPos = namespace.length;
-	  Object.keys(store.getters).forEach(function (type) {
-	    // skip if the target getter is not match this namespace
-	    if (type.slice(0, splitPos) !== namespace) { return }
-
-	    // extract local getter type
-	    var localType = type.slice(splitPos);
-
-	    // Add a port to the getters proxy.
-	    // Define as getter property because
-	    // we do not want to evaluate the getters in this time.
-	    Object.defineProperty(gettersProxy, localType, {
-	      get: function () { return store.getters[type]; },
-	      enumerable: true
-	    });
-	  });
-
-	  return gettersProxy
-	}
-
-	function registerMutation (store, type, handler, local) {
-	  var entry = store._mutations[type] || (store._mutations[type] = []);
-	  entry.push(function wrappedMutationHandler (payload) {
-	    handler(local.state, payload);
-	  });
-	}
-
-	function registerAction (store, type, handler, local) {
-	  var entry = store._actions[type] || (store._actions[type] = []);
-	  entry.push(function wrappedActionHandler (payload, cb) {
-	    var res = handler({
-	      dispatch: local.dispatch,
-	      commit: local.commit,
-	      getters: local.getters,
-	      state: local.state,
-	      rootGetters: store.getters,
-	      rootState: store.state
-	    }, payload, cb);
-	    if (!isPromise(res)) {
-	      res = Promise.resolve(res);
-	    }
-	    if (store._devtoolHook) {
-	      return res.catch(function (err) {
-	        store._devtoolHook.emit('vuex:error', err);
-	        throw err
-	      })
-	    } else {
-	      return res
-	    }
-	  });
-	}
-
-	function registerGetter (store, type, rawGetter, local) {
-	  if (store._wrappedGetters[type]) {
-	    console.error(("[vuex] duplicate getter key: " + type));
-	    return
-	  }
-	  store._wrappedGetters[type] = function wrappedGetter (store) {
-	    return rawGetter(
-	      local.state, // local state
-	      local.getters, // local getters
-	      store.state, // root state
-	      store.getters // root getters
-	    )
-	  };
-	}
-
-	function enableStrictMode (store) {
-	  store._vm.$watch('state', function () {
-	    assert(store._committing, "Do not mutate vuex store state outside mutation handlers.");
-	  }, { deep: true, sync: true });
-	}
-
-	function getNestedState (state, path) {
-	  return path.length
-	    ? path.reduce(function (state, key) { return state[key]; }, state)
-	    : state
-	}
-
-	function unifyObjectStyle (type, payload, options) {
-	  if (isObject(type) && type.type) {
-	    options = payload;
-	    payload = type;
-	    type = type.type;
-	  }
-
-	  assert(typeof type === 'string', ("Expects string as the type, but found " + (typeof type) + "."));
-
-	  return { type: type, payload: payload, options: options }
-	}
-
-	function install (_Vue) {
-	  if (Vue) {
-	    console.error(
-	      '[vuex] already installed. Vue.use(Vuex) should be called only once.'
-	    );
-	    return
-	  }
-	  Vue = _Vue;
-	  applyMixin(Vue);
-	}
-
-	// auto install in dist mode
-	if (typeof window !== 'undefined' && window.Vue) {
-	  install(window.Vue);
-	}
-
-	var index = {
-	  Store: Store,
-	  install: install,
-	  version: '2.1.2',
-	  mapState: mapState,
-	  mapMutations: mapMutations,
-	  mapGetters: mapGetters,
-	  mapActions: mapActions
-	};
-
-	return index;
-
-	})));
-
-
-/***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.FETCH_LIST_DATA = FETCH_LIST_DATA;
-	exports.LOAD_MORE_ITEMS = LOAD_MORE_ITEMS;
-	exports.ENSURE_ACTIVE_ITEMS = ENSURE_ACTIVE_ITEMS;
-	exports.FETCH_ITEMS = FETCH_ITEMS;
-	exports.FETCH_USER = FETCH_USER;
-
-	var _fetch = __webpack_require__(34);
-
-	var LOAD_MORE_STEP = 10;
-
-	// ensure data for rendering given list type
-	function FETCH_LIST_DATA(_ref, _ref2) {
-	  var commit = _ref.commit,
-	      dispatch = _ref.dispatch,
-	      state = _ref.state;
-	  var type = _ref2.type;
-
-	  commit('SET_ACTIVE_TYPE', { type: type });
-	  return (0, _fetch.fetchIdsByType)(type).then(function (ids) {
-	    return commit('SET_LIST', { type: type, ids: ids });
-	  }).then(function () {
-	    return dispatch('ENSURE_ACTIVE_ITEMS');
-	  });
-	}
-
-	// load more items
-	function LOAD_MORE_ITEMS(_ref3) {
-	  var dispatch = _ref3.dispatch,
-	      state = _ref3.state;
-
-	  state.counts[state.activeType] += LOAD_MORE_STEP;
-	  return dispatch('ENSURE_ACTIVE_ITEMS');
-	}
-
-	// ensure all active items are fetched
-	function ENSURE_ACTIVE_ITEMS(_ref4) {
-	  var dispatch = _ref4.dispatch,
-	      getters = _ref4.getters;
-
-	  return dispatch('FETCH_ITEMS', {
-	    ids: getters.activeIds
-	  });
-	}
-
-	function FETCH_ITEMS(_ref5, _ref6) {
-	  var commit = _ref5.commit,
-	      state = _ref5.state;
-	  var ids = _ref6.ids;
-
-	  // only fetch items that we don't already have.
-	  var newIds = ids.filter(function (id) {
-	    return !state.items[id];
-	  });
-	  return newIds.length ? (0, _fetch.fetchItems)(newIds).then(function (items) {
-	    return commit('SET_ITEMS', { items: items });
-	  }) : Promise.resolve();
-	}
-
-	function FETCH_USER(_ref7, _ref8) {
-	  var commit = _ref7.commit,
-	      state = _ref7.state;
-	  var id = _ref8.id;
-
-	  return state.users[id] ? Promise.resolve(state.users[id]) : (0, _fetch.fetchUser)(id).then(function (user) {
-	    return commit('SET_USER', { user: user });
-	  });
-	}
-
-/***/ },
-/* 34 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.fetch = fetch;
-	exports.fetchIdsByType = fetchIdsByType;
-	exports.fetchItem = fetchItem;
-	exports.fetchItems = fetchItems;
-	exports.fetchUser = fetchUser;
-	var stream = weex.requireModule('stream');
-	var baseURL = 'https://hacker-news.firebaseio.com/v0';
-
-	function fetch(path) {
-	  return new Promise(function (resolve, reject) {
-	    stream.fetch({
-	      method: 'GET',
-	      url: baseURL + '/' + path + '.json',
-	      type: 'json'
-	    }, function (response) {
-	      if (response.status == 200) {
-	        resolve(response.data);
-	      } else {
-	        reject(response);
-	      }
-	    }, function () {});
-	  });
-	}
-
-	function fetchIdsByType(type) {
-	  return fetch(type + 'stories');
-	}
-
-	function fetchItem(id) {
-	  return fetch('item/' + id);
-	}
-
-	function fetchItems(ids) {
-	  return Promise.all(ids.map(function (id) {
-	    return fetchItem(id);
-	  }));
-	}
-
-	function fetchUser(id) {
-	  return fetch('user/' + id);
-	}
-
-/***/ },
-/* 35 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.SET_ACTIVE_TYPE = SET_ACTIVE_TYPE;
-	exports.SET_LIST = SET_LIST;
-	exports.SET_ITEMS = SET_ITEMS;
-	exports.SET_USER = SET_USER;
-	function SET_ACTIVE_TYPE(state, _ref) {
-	  var type = _ref.type;
-
-	  state.activeType = type;
-	}
-
-	function SET_LIST(state, _ref2) {
-	  var type = _ref2.type,
-	      ids = _ref2.ids;
-
-	  state.lists[type] = ids;
-	}
-
-	function SET_ITEMS(state, _ref3) {
-	  var items = _ref3.items;
-
-	  items.forEach(function (item) {
-	    if (item) {
-	      Vue.set(state.items, item.id, item);
-	    }
-	  });
-	}
-
-	function SET_USER(state, _ref4) {
-	  var user = _ref4.user;
-
-	  Vue.set(state.users, user.id, user);
-	}
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return (_vm.comment) ? _h('div', {
-	    class: _vm.className
-	  }, [(_vm.collapsed) ? _h('text', {
-	    staticClass: ["small-text", "comment-btn"],
-	    on: {
-	      "click": function($event) {
-	        _vm.toggle(false)
-	      }
-	    }
-	  }, ["[+]"]) : _h('text', {
-	    staticClass: ["small-text", "comment-btn"],
-	    on: {
-	      "click": function($event) {
-	        _vm.toggle(true)
-	      }
-	    }
-	  }, ["[-]"]), _h('div', {
-	    staticClass: ["text-group"],
-	    style: {
-	      marginLeft: _vm.indent
-	    }
-	  }, [_h('text', {
-	    staticClass: ["text-cell", "small-text"]
-	  }, ["by "]), _h('div', {
-	    staticClass: ["text-cell"],
-	    on: {
-	      "click": function($event) {
-	        _vm.jump(("/user/" + (_vm.comment.by)))
-	      }
-	    }
-	  }, [_h('text', {
-	    staticClass: ["small-text", "link"]
-	  }, [_vm._s(_vm.comment.by)])]), _h('text', {
-	    staticClass: ["text-cell", "small-text"]
-	  }, [" | " + _vm._s(_vm._f("timeAgo")(_vm.comment.time)) + " ago"]), _h('text', {
-	    staticClass: ["text-cell", "small-text"]
-	  }, [_vm._s(_vm.collapsed ? '  (collapsed)' : '')])]), (!_vm.collapsed) ? _h('div', {
-	    staticClass: ["comment-inner"],
-	    style: {
-	      marginLeft: _vm.indent
-	    }
-	  }, [_h('text', {
-	    staticClass: ["comment-title"]
-	  }, [_vm._s(_vm._f("unescape")(_vm.comment.text))]), _h('div', {
-	    staticClass: ["comment-list"]
-	  }, [_vm._l((_vm.comment.kids), function(id) {
-	    return _h('comment', {
-	      attrs: {
-	        "id": id,
-	        "depth": _vm.depth + 1
-	      }
-	    })
-	  })])]) : _vm._e()]) : _vm._e()
-	},staticRenderFns: []}
-	module.exports.render._withStripped = true
-
-/***/ },
-/* 37 */
-/***/ function(module, exports) {
-
-	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _h('div', {
-	    staticClass: ["commont-view"]
-	  }, [_h('app-header'), _h('scroller', [(_vm.story) ? _h('div', {
-	    staticClass: ["story-cell"]
-	  }, [_h('story', {
-	    staticClass: ["comment-story"],
-	    attrs: {
-	      "story": _vm.story,
-	      "no-comment": "true"
-	    }
-	  })]) : _vm._e(), (_vm.story && _vm.story.kids) ? _h('div', {
-	    staticClass: ["comments-box"]
-	  }, [(_vm.story.descendants) ? _h('text', {
-	    staticClass: ["comment-count"]
-	  }, [_vm._s(_vm.story.descendants) + " comments"]) : _h('text', {
-	    staticClass: ["comment-count"]
-	  }, ["no comments"]), _h('div', {
-	    staticClass: ["comment-list"]
-	  }, [_vm._l((_vm.story.kids), function(id) {
-	    return _h('comment', {
-	      attrs: {
-	        "id": id
-	      }
-	    })
-	  })])]) : _vm._e()])])
-	},staticRenderFns: []}
-	module.exports.render._withStripped = true
-
-/***/ },
-/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_exports__, __vue_options__
 	var __vue_styles__ = []
 
 	/* styles */
-	__vue_styles__.push(__webpack_require__(39)
+	__vue_styles__.push(__webpack_require__(31)
 	)
 
 	/* script */
-	__vue_exports__ = __webpack_require__(40)
+	__vue_exports__ = __webpack_require__(32)
 
 	/* template */
-	var __vue_template__ = __webpack_require__(41)
+	var __vue_template__ = __webpack_require__(33)
 	__vue_options__ = __vue_exports__ = __vue_exports__ || {}
 	if (
 	  typeof __vue_exports__.default === "object" ||
@@ -5009,7 +4021,7 @@
 	if (typeof __vue_options__ === "function") {
 	  __vue_options__ = __vue_options__.options
 	}
-	__vue_options__.__file = "/Users/Hanks/Projects/weex/weex-hackernews/src/views/UserView.vue"
+	__vue_options__.__file = "C:\\Users\\fe\\www\\peppa\\src\\views\\Detail.vue"
 	__vue_options__.render = __vue_template__.render
 	__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
 	__vue_options__.style = __vue_options__.style || {}
@@ -5023,40 +4035,13 @@
 
 
 /***/ },
-/* 39 */
+/* 31 */
 /***/ function(module, exports) {
 
-	module.exports = {
-	  "user-info": {
-	    "paddingTop": 60,
-	    "paddingLeft": 80,
-	    "paddingRight": 60
-	  },
-	  "user-name": {
-	    "fontSize": 72,
-	    "fontWeight": "bold",
-	    "marginBottom": 60
-	  },
-	  "loading-text": {
-	    "fontFamily": "Verdana, Geneva, sans-serif",
-	    "fontSize": 44,
-	    "color": "#BBBBBB"
-	  },
-	  "meta-label": {
-	    "fontFamily": "Verdana, Geneva, sans-serif",
-	    "fontSize": 32,
-	    "marginBottom": 15,
-	    "color": "#333333"
-	  },
-	  "user-about": {
-	    "marginTop": 20,
-	    "fontSize": 28,
-	    "color": "#666666"
-	  }
-	}
+	module.exports = {}
 
 /***/ },
-/* 40 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5073,20 +4058,11 @@
 
 	exports.default = {
 	  components: { AppHeader: _appHeader2.default },
-	  computed: {
-	    userId: function userId() {
-	      if (this.$route && this.$route.params) {
-	        return this.$route.params.id;
-	      }
-	      return 'Hanks10100';
-	    },
-	    user: function user() {
-	      return this.$store.state.users[this.userId];
-	    }
+	  data: function data() {
+	    return {};
 	  },
-
 	  created: function created() {
-	    this.$store.dispatch('FETCH_USER', { id: this.userId });
+	    console.log(this.$router.query.id);
 	  }
 	}; //
 	//
@@ -5097,105 +4073,29 @@
 	//
 	//
 	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
 
 /***/ },
-/* 41 */
+/* 33 */
 /***/ function(module, exports) {
 
 	module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-	  return _h('div', {
-	    staticClass: ["user-view"]
-	  }, [_h('app-header'), _h('div', {
-	    staticClass: ["user-info"]
-	  }, [_h('text', {
-	    staticClass: ["user-name"]
-	  }, [_vm._s(_vm.userId)]), (_vm.user) ? _h('div', {
-	    staticClass: ["user-meta"]
-	  }, [_h('text', {
-	    staticClass: ["meta-label"]
-	  }, ["Created: " + _vm._s(_vm._f("timeAgo")(_vm.user.created)) + " ago"]), _h('text', {
-	    staticClass: ["meta-label"]
-	  }, ["Karma:   " + _vm._s(_vm.user.karma)]), (_vm.user.about) ? _h('text', {
-	    staticClass: ["meta-label", "user-about"]
-	  }, [_vm._s(_vm._f("unescape")(_vm.user.about))]) : _vm._e()]) : _h('div', {
-	    staticClass: ["loading"]
-	  }, [_h('text', {
-	    staticClass: ["loading-text"]
-	  }, ["loading ..."])])])])
+	  return _c('div', [_c('app-header', {
+	    attrs: {
+	      "title": "货源详情"
+	    }
+	  }), _c('div', {
+	    staticClass: ["regions"],
+	    on: {
+	      "click": function($event) {
+	        _vm.jump(("/detail/" + (_vm.corsdata.id)))
+	      }
+	    }
+	  })], 1)
 	},staticRenderFns: []}
 	module.exports.render._withStripped = true
 
 /***/ },
-/* 42 */
-/***/ function(module, exports) {
-
-	exports.sync = function (store, router, options) {
-	  var moduleName = (options || {}).moduleName || 'route'
-
-	  store.registerModule(moduleName, {
-	    state: cloneRoute(router.currentRoute),
-	    mutations: {
-	      'router/ROUTE_CHANGED': function (state, transition) {
-	        store.state[moduleName] = cloneRoute(transition.to, transition.from)
-	      }
-	    }
-	  })
-
-	  var isTimeTraveling = false
-	  var currentPath
-
-	  // sync router on store change
-	  store.watch(
-	    function (state) { return state[moduleName] },
-	    function (route) {
-	      if (route.fullPath === currentPath) {
-	        return
-	      }
-	      isTimeTraveling = true
-	      currentPath = route.fullPath
-	      router.push(route)
-	    },
-	    { sync: true }
-	  )
-
-	  // sync store on router navigation
-	  router.afterEach(function (to, from) {
-	    if (isTimeTraveling) {
-	      isTimeTraveling = false
-	      return
-	    }
-	    currentPath = to.fullPath
-	    store.commit('router/ROUTE_CHANGED', { to: to, from: from })
-	  })
-	}
-
-	function cloneRoute (to, from) {
-	  var clone = {
-	    name: to.name,
-	    path: to.path,
-	    hash: to.hash,
-	    query: to.query,
-	    params: to.params,
-	    fullPath: to.fullPath,
-	    meta: to.meta
-	  }
-	  if (from) {
-	    clone.from = cloneRoute(from)
-	  }
-	  return Object.freeze(clone)
-	}
-
-
-/***/ },
-/* 43 */
+/* 34 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -5249,7 +4149,7 @@
 	}
 
 /***/ },
-/* 44 */
+/* 35 */
 /***/ function(module, exports) {
 
 	"use strict";

@@ -1,4 +1,4 @@
-package com.example.weex.peppa;
+package com.example.weex.maizone;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.weex.peppa", appContext.getPackageName());
+        assertEquals("com.example.weex.maizone", appContext.getPackageName());
     }
 }
